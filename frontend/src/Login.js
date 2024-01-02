@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import apiBaseUrl from './endpoint.mjs'
 
 function Login() {
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const loginEndpoint = "/login"
@@ -17,7 +17,7 @@ function Login() {
     }, [])
     async function login() {
         try {
-            let item = { email, password }
+            let item = { username, password }
 
             let result = await fetch(`${apiBaseUrl}${loginEndpoint}`, {
                 method: 'POST',
@@ -32,7 +32,7 @@ function Login() {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Berhasil login',
+                    title: 'Berhasil Login',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -46,53 +46,11 @@ function Login() {
                     timer: 1500
                 })
 
-            } else if (result.message == "\"email\" must be a valid email"
-                || result.message == "\"email\" is not allowed to be empty") {
+            } else if (result.message === "Invalid username or password") {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: 'Tolong masukan alamat email yang valid',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (result.message == "User not found") {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Email belum terdaftar',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (result.message == "\"password\" length must be at least 6 characters long"
-                || result.message == "\"password\" is not allowed to be empty") {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Password tidak valid',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (result.message == "Email and password does not match") {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Email dan password tidak cocok',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (result.message == "Too many request, try again later") {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Terlalu banyak kesalahan login, coba lagi nanti',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (result.message === "Terjadi kesalahan") {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Terjadi Kesalahan, Silahkan Periksa Email dan Password',
+                    title: 'Invalid username or password',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -117,18 +75,16 @@ function Login() {
 
                 <div style={{ margin: '20px' }}>
                     <h1>Halaman Login</h1>
-                    <br />
-                    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} className="form-control" />
-                    <br />
-                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="form-control" />
-                    <br />
-                    <button onClick={login} className="btn btn-primary" style={{ width: '6rem' }}>Login</button>
-                    <br />
-                    <br />
-                    <Link to="/register"><button className="btn btn-warning" style={{ width: '6rem' }}>Register</button></Link>
+                        <br />
+                        <input type="text" placeholder="Usename" onChange={(e) => setUsername(e.target.value)} className="form-control" />
+                        <br />
+                        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="form-control" />
+                        <br />
+                        <button onClick={login} className="btn btn-primary" style={{ width: '6rem' }}>Login</button>
+                        <br />
                 </div>
 
-               
+
             </div>
         </div>
     )

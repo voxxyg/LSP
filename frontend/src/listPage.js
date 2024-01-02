@@ -44,7 +44,7 @@ function ListProducts() {
         }));
     }
 
-    // Fungsi untuk mengirimkan pesanan
+    // Submit Pesanan
     async function submitOrder() {
         try {
             const items = Object.keys(order).map(id => ({

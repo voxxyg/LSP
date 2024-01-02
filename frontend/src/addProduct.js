@@ -185,8 +185,8 @@ function AddProducts() {
                     />
                 </div>
                 <br />
-                <button onClick={addProduct} className="btn btn-primary" style={{ marginTop: "1rem" }}>Tambah Produk</button>
-                <button onClick={clearInputs} className="btn btn-secondary" style={{ marginTop: "1rem" }}>Reset</button>
+                <button onClick={addProduct} className="btn btn-primary" style={{ marginTop: "1rem", width: "8rem" }}>Tambah Produk</button>
+                <button onClick={clearInputs} className="btn btn-secondary" style={{ marginTop: "1rem", width: "8rem" }}>Reset</button>
 
             </div>
             <div className="container mt-5">

@@ -15,7 +15,6 @@ function PaymentPages() {
     useEffect(() => {
         fetchPayment();
     }, []);
-    // const uid = JSON.parse(localStorage.getItem('user-info')).data.uid;
     async function fetchPayment() {
         try {
             let result = await fetch(`${apiBaseUrl}${fetchPaymentPageEndpoint}`, {
@@ -47,7 +46,7 @@ function PaymentPages() {
         <div>
             <Header />
             <br />
-            <h1>Dashboard Pemesanan</h1>
+            <h1>Invoice Pemesanan</h1>
             <br />
             <div>
             <div className="container mt-5">
@@ -77,7 +76,7 @@ function PaymentPages() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="5">Produk belum ditambahkan</td>
+                                <td colSpan="5">Belum Ada Pemesanan</td>
                             </tr>
                         )}
                     </tbody>

@@ -43,7 +43,7 @@ function PaymentDetails(paymentId) {
     return (
         <div>
             <Header />
-            <h1 style={{ marginBottom: '2rem' }}>Invoice Pemesanan</h1>
+            <h1 style={{ marginBottom: '2rem' }}>Detail Pemesanan</h1>
             <div className="container mt-5">
                 {paymentDetail.length > 0 ? (
                     paymentDetail.map((payment) => (
@@ -75,7 +75,7 @@ function PaymentDetails(paymentId) {
                         </div>
                     ))
                 ) : (
-                    <p>Produk belum ditambahkan</p>
+                    <p>Belum Ada Pemesanan</p>
                 )}
             </div>
         </div>

@@ -24,7 +24,7 @@ function Header() {
         <div style={{ backgroundColor: 'magenta' }}>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container fluid>
-                    <Navbar.Brand href="#">Leafhea Indonesia</Navbar.Brand>
+                    <Navbar.Brand href="#">Restoran</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
@@ -35,29 +35,18 @@ function Header() {
                             {
                                 localStorage.getItem('user-info') ?
                                     (
-                                        JSON.parse(localStorage.getItem('user-info')).data.status === "admin" ?
-                                            (
-                                                <>
-                                                    <Link to="/addProduct" class='navv'>Tambah Produk</Link>
-                                                    <Link to="/payment" class='navv'>Dashboard Pembelian</Link>
-                                                </>
-                                            )
-                                            :
-                                            (
-                                                <>
-                                                    <Link to="/listproducts" class='navv'>Daftar Produk</Link>
-                                                    <Link to="/keranjang" class='navv'>Keranjang</Link>
-                                                    <Link to="/payment" class='navv'>Dashboard Pembelian</Link>
-                                                    <Link to="/detailSeller" class='navv'>Detail Penjual</Link>
-                                                </>
-                                            )
+                                        <>
+                                            <Link to="/addProduct" class='navv'>Tambah Produk</Link>
+                                            <Link to="/payment" class='navv'>Dashboard Pemesanan</Link>
+                                            <Link to="/listproducts" class='navv'>Daftar Makanan</Link>
+                                            <Link to="/payment" class='navv'>Daftar Pesanan</Link>
+                                        </>
                                     )
                                     :
                                     (
                                         <>
                                             <Link to="/login" class='navv'>Login</Link>
-                                            <Link to="/register" class='navv'>Register</Link>
-                                            <Link to="/listproducts" class='navv'>Daftar Produk</Link>
+                                            <Link to="/listproducts" class='navv'>Daftar Makanan</Link>
                                         </>
                                     )
                             }
@@ -66,8 +55,7 @@ function Header() {
                         {localStorage.getItem('user-info') ?
 
                             <Nav style={{ marginRight: '1.5rem' }}>
-                                <NavDropdown title={user && user.data.username}>
-                                    {/* <NavDropdown.Item><Link to="/profile" style={{ color:'inherit', textDecoration:'none', display: 'block'}}>Profile</Link></NavDropdown.Item> */}
+                                <NavDropdown title={user && user.user.username}>
                                     <NavDropdown.Item onClick={logOut}>Logout</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>

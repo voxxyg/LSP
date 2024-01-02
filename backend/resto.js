@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(bodyParser.json());
@@ -123,37 +124,19 @@ app.delete('/makanan_minuman/:id', (req, res) => {
 
 // Show makanan_minuman with stok
 
-app.get('/makanan_minuman_stok', (req, res) => {
-    let sql = `
-        SELECT m.id, m.jenis, m.nama, m.harga, IFNULL(s.stok, 'Tidak tersedia') AS stok
-        FROM makanan_minuman m
-        LEFT JOIN stok s ON m.id = s.id
-    `;
-    db.query(sql, (err, results) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Error saat mengambil data', error: err.message });
-        }
-        res.json({ success: true, data: results });
-    });
-});
-
-app.get('/makanan/detail/:id', (req, res) => {
-    let sql = `
-        SELECT m.id, m.jenis, m.nama, m.harga, IFNULL(s.stok, 'Tidak tersedia') AS stok
-        FROM makanan_minuman m
-        LEFT JOIN stok s ON m.id = s.id 
-        WHERE m.id = ?
-    `;
-    db.query(sql, [req.params.id], (err, result) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Error saat mengambil detail makanan', error: err.message });
-        }
-        if (result.length === 0) {
-            return res.status(404).json({ success: false, message: 'Makanan tidak ditemukan' });
-        }
-        res.json({ success: true, data: result[0] });
-    });
-});
+// app.get('/makanan_minuman_stok', (req, res) => {
+//     let sql = `
+//         SELECT m.id, m.jenis, m.nama, m.harga, IFNULL(s.stok, 'Tidak tersedia') AS stok
+//         FROM makanan_minuman m
+//         LEFT JOIN stok s ON m.id = s.id
+//     `;
+//     db.query(sql, (err, results) => {
+//         if (err) {
+//             return res.status(500).json({ success: false, message: 'Error saat mengambil data', error: err.message });
+//         }
+//         res.json({ success: true, data: results });
+//     });
+// });
 
 
 // Transaksi
@@ -240,16 +223,7 @@ app.get('/transaksi', (req, res) => {
         if (err) {
             return res.status(500).send('Error saat melakukan query database: ' + err.message);
         }
-        // Mengubah items dari string JSON menjadi objek JavaScript
-        // results.forEach(transaksi => {
-        //     try {
-        //         transaksi.items = JSON.parse(transaksi.items);
-        //     } catch (parseErr) {
-        //         // Jika ada error parsing, asumsikan kolom items adalah string kosong atau tidak valid
-        //         transaksi.items = [];
-        //     }
-        // });
-        res.json({data: results});
+        res.json({ data: results });
     });
 });
 app.get('/transaksi/:id', (req, res) => {
@@ -273,8 +247,58 @@ app.get('/transaksi/:id', (req, res) => {
             return res.status(500).send('Error saat mengurai data transaksi');
         }
 
-        res.json({data: result});
+        res.json({ data: result });
     });
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Query to find the user by username
+    const sql = 'SELECT * FROM user WHERE username = ?';
+    db.query(sql, [username], async (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Database query failed', error: err.message });
+        }
+
+        if (results.length === 0) {
+            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+        }
+
+        const user = results[0];
+        try {
+            // Compare provided password with the hashed password in the database
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            }
+
+            // The password is correct, send success response
+            res.json({ success: true, message: 'Login successful', user: { id: user.id, username: user.username } });
+        } catch (compareError) {
+            res.status(500).json({ success: false, message: 'Error while checking password', error: compareError.message });
+        }
+    });
+});
+
+app.post('/adduser', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Hash password sebelum menyimpan ke database
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Query untuk menambahkan user
+        const sql = 'INSERT INTO user (username, password) VALUES (?, ?)';
+        db.query(sql, [username, hashedPassword], (err, results) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Gagal menambahkan user', error: err.message });
+            }
+            res.json({ success: true, message: 'User berhasil ditambahkan', userId: results.insertId });
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error saat hashing password', error: error.message });
+    }
 });
 
 const PORT = process.env.PORT || 3000;
