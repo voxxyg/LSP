@@ -1,6 +1,6 @@
 import Header from "./Header"
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import apiBaseUrl from './endpoint.mjs'
 

@@ -1,10 +1,7 @@
 import Header from "./Header"
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Swal from 'sweetalert2'
-import { Dropdown } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import apiBaseUrl from './endpoint.mjs'
 
@@ -38,7 +35,6 @@ function PaymentDetails(paymentId) {
         const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleDateString('id-ID', dateOptions);
     }
-
 
     return (
         <div>

@@ -77,68 +77,6 @@ app.delete('/makanan_minuman/:id', (req, res) => {
     });
 });
 
-
-// Stok
-
-// app.post('/stok', (req, res) => {
-//     let data = { id: req.body.id, stok: req.body.stok };
-//     let sql = 'INSERT INTO stok SET ?';
-//     db.query(sql, data, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ success: false, message: 'Error saat menambahkan stok', error: err.message });
-//         }
-//         res.status(201).json({ success: true, message: 'Stok berhasil ditambahkan', results: results });
-//     });
-// });
-
-// app.get('/stok', (req, res) => {
-//     let sql = 'SELECT * FROM stok';
-//     db.query(sql, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ success: false, message: 'Error saat mengambil data stok', error: err.message });
-//         }
-//         res.json({ success: true, data: results });
-//     });
-// });
-
-// app.put('/stok/:id', (req, res) => {
-//     let data = [req.body.stok, req.params.id];
-//     let sql = 'UPDATE stok SET stok = ? WHERE id = ?';
-//     db.query(sql, data, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ success: false, message: 'Error saat memperbarui stok', error: err.message });
-//         }
-//         res.json({ success: true, message: 'Stok berhasil diperbarui', results: results });
-//     });
-// });
-
-// app.delete('/stok/:id', (req, res) => {
-//     let sql = 'DELETE FROM stok WHERE id = ?';
-//     db.query(sql, [req.params.id], (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ success: false, message: 'Error saat menghapus stok', error: err.message });
-//         }
-//         res.json({ success: true, message: 'Stok berhasil dihapus', results: results });
-//     });
-// });
-
-// Show makanan_minuman with stok
-
-// app.get('/makanan_minuman_stok', (req, res) => {
-//     let sql = `
-//         SELECT m.id, m.jenis, m.nama, m.harga, IFNULL(s.stok, 'Tidak tersedia') AS stok
-//         FROM makanan_minuman m
-//         LEFT JOIN stok s ON m.id = s.id
-//     `;
-//     db.query(sql, (err, results) => {
-//         if (err) {
-//             return res.status(500).json({ success: false, message: 'Error saat mengambil data', error: err.message });
-//         }
-//         res.json({ success: true, data: results });
-//     });
-// });
-
-
 // Transaksi
 
 app.post('/transaksi', (req, res) => {
@@ -303,5 +241,5 @@ app.post('/adduser', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server berjalan di port ${PORT}`);
+    console.log(`Server Running in Port ${PORT}`);
 });

@@ -2,6 +2,7 @@ import Header from "./Header"
 import React, { useState, useEffect } from 'react'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Swal from 'sweetalert2'
 import apiBaseUrl from './endpoint.mjs'
 
 function ListProducts() {
@@ -37,14 +38,6 @@ function ListProducts() {
         }
     }
 
-    function handleOrderChange(id, quantity) {
-        setOrder((prevOrder) => ({
-            ...prevOrder,
-            [id]: quantity
-        }));
-    }
-
-    // Submit Pesanan
     async function submitOrder() {
         try {
             const items = Object.keys(order).map(id => ({
@@ -62,12 +55,25 @@ function ListProducts() {
             });
             result = await result.json();
             console.log('Order response:', result);
-            alert('Pemesanan berhasil!');
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Makanan Berhasil Dipesan',
+                showConfirmButton: false,
+                timer: 1600
+            })
             clearInputs()
         } catch (error) {
             console.error('Error submitting order:', error);
             alert('Terjadi kesalahan saat membuat pesanan.');
         }
+    }
+
+    function handleOrderChange(id, quantity) {
+        setOrder((prevOrder) => ({
+            ...prevOrder,
+            [id]: quantity
+        }));
     }
 
     return (
@@ -107,13 +113,13 @@ function ListProducts() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5">Produk belum ditambahkan</td>
+                                    <td colSpan="5">Tidak Ada Data Makanan</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                     <br/>
-                    <button onClick={submitOrder} className="btn btn-success">Submit</button>
+                    <button onClick={submitOrder} className="btn btn-success">Pesan</button>
                 </div>
             </div>
         </div>

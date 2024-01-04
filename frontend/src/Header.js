@@ -4,7 +4,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import logo from './img/logo_leafhea_web.png'
 
 function Header() {
     let user = JSON.parse(localStorage.getItem('user-info'))
@@ -68,5 +67,4 @@ function Header() {
     )
 }
 
-// module.exports = {Header}
 export default Header

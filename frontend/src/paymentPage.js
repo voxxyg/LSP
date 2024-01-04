@@ -1,12 +1,9 @@
 import Header from "./Header"
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Swal from 'sweetalert2'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import apiBaseUrl from './endpoint.mjs'
-import { type } from "@testing-library/user-event/dist/type";
 
 function PaymentPages() {
     const [paymentData, setPaymentData] = useState([]);
